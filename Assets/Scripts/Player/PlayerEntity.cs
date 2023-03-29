@@ -1,4 +1,5 @@
 using Core.Enums;
+using Player.PlayerAnimation;
 using UnityEngine;
 
 namespace Player
@@ -6,6 +7,8 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerEntity : MonoBehaviour
     {
+        [SerializeField] private AnimatorController _animator;
+        
         [Header("HorizontalMovement")]
         [SerializeField] private float _horizontalSpeed;
         [SerializeField] private Direction _direction;
@@ -19,6 +22,8 @@ namespace Player
         
         private bool _isJumping;
         private float _startJumpVerticalPosition;
+        
+        private Vector2 _movement;
 
         private void Start()
         {
@@ -29,6 +34,8 @@ namespace Player
         {
             if (_isJumping)
                 UpdateJump();
+            
+            UpdateAnimations();
         }
         
         public void Jump()
@@ -57,6 +64,7 @@ namespace Player
         
         public void MoveHorizontally(float direction)
         {
+            _movement.x = direction;
             SetDirection(direction);
             var velocity = _rigidbody.velocity;
             velocity.x = _horizontalSpeed * direction;
@@ -76,6 +84,13 @@ namespace Player
             _direction = _direction == Direction.Right ? Direction.Left : Direction.Right;
             foreach (var cameraPair in _cameras.DirectionalCameras)
                 cameraPair.Value.enabled = cameraPair.Key == _direction;
+        }
+        
+        private void UpdateAnimations()
+        {
+            _animator.PlayAnimation(AnimationType.Idle, true);
+            _animator.PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
+            _animator.PlayAnimation(AnimationType.Jump, _isJumping);
         }
     }
 }
