@@ -7,7 +7,7 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.DE949528" = "tile palett"
+	"last_search.DE949528" = "project s"
 	"OpenInspectorPreview.DE949528" = "0"
 	"currentGroup.DE949528" = "all"
 }
@@ -56,9 +56,10 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"pr"
+	"p"
 	"t"
 	"a"
-	"p"
 	"з"
 ]
 searchItemFavorites = [
